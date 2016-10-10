@@ -1,5 +1,5 @@
 # Todo
-This is React based app
+This is React-based app
 
 ## How to run the project:
 
