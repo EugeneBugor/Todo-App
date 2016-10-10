@@ -1,0 +1,253 @@
+@blue: #7195FF;
+@light-blue: #bec6e6;
+@light-coral: #F08080;
+@coral: #ff9400;
+@orange: rgba(255, 165, 0, 0.5);
+@pale-green: #d4ffbd;
+@lime-green: #1bd000;
+@green: #4CAF50;
+@pink: #ffbda3;
+@light-yellow: #EDEDD4;
+
+@images: "../pics";
+
+@import url(https://fonts.googleapis.com/css?family=Dekko);
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+body {
+  margin: 0;
+  bottom: 0;
+  background-color: @light-yellow;
+}
+
+#container {
+  bottom: 0px;
+  position: relative;
+  height: 790px;
+  @media (max-width: 800px) {
+    width: 100%;
+  }
+  .showAll-button {
+    position: absolute;
+    bottom: 165px;
+    left: 25%;
+    border: 2px solid @blue;
+    width: 25%;
+    height: 35px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1em;
+    -webkit-transition: 0.2s background-color; /* Safari */
+    transition: 0.2s background-color; /* Safari */
+    cursor: pointer;
+    &:hover {
+      background-color: @blue;
+      color: white;
+      cursor: pointer;
+    }
+    @media (max-width: 800px) {
+      background-color: @light-blue;
+      width: 48%;
+      left: 5px;
+      transition: none;
+      --webkit-transition: none;
+    }
+  }
+  .closeAll-button {
+    .showAll-button;
+    margin-right: .7em;
+    border: 2px solid @light-coral;
+    left: 50.5%;
+    &:hover {
+      background-color: @light-coral;
+      color: white;
+      cursor: pointer;
+    }
+    @media (max-width: 800px) {
+      background-color: @pink ;
+      width: 48%;
+      left: 51%;
+      transition: none;
+      --webkit-transition: none;
+    }
+  }
+}
+
+#todoForm {
+  position: absolute;
+  top: 650px;
+  width: 100%;
+  height: 140px;
+  textarea {
+    position: absolute;
+    resize: none;
+    left: 25%;
+    bottom: 50px;
+    width: 50%;
+    height: 100px;
+    line-height: 1em;
+    font-size: .8em;
+    font-family: 'Dekko', cursive;
+    &:focus {
+      border: 1px solid @coral;
+      box-shadow: 0 0 10px @orange;
+      outline: none;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: grey;
+    }
+    @media (max-width: 800px) {
+      width: 97.1%;
+      left: 5px;
+      right: 10px;
+    }
+  }
+  .add-button {
+    position: absolute;
+    left: 25%;
+    bottom: 0;
+    border: 2px solid @green;
+    width: 50.5%;
+    height: 46px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1em;
+    -webkit-transition: 0.2s background-color; /* Safari */
+    transition: 0.2s background-color; /* Safari */
+    cursor: pointer;
+    &:hover {
+      background-color: @green;
+      color: white;
+      cursor: pointer;
+    }
+    @media (max-width: 800px) {
+      background-color: @pale-green;
+      width: 98.4%;
+      left: 5px;
+      right: 5000px;
+      transition: none;
+      --webkit-transition: none;
+    }
+  }
+}
+
+#todoList {
+  position: absolute;
+  padding: 0 5px;
+  left: 24.7%;
+  bottom: 210px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 50.4%;
+  max-height: 575px;
+  max-width: 50.4%;
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: lightgrey;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: grey;
+  }
+  @media (max-width: 800px) {
+    width: 98%;
+    max-width: 98%;
+    left: 0;
+  }
+  #todoItem {
+    position: relative;
+    margin-top: 3px;
+    border: 1px solid black;
+    background: url("@{images}/sticker.png") no-repeat 50% 50%;
+    font-size: 14px;
+    font-family: 'Dekko', cursive;
+    font-weight: 500;
+    &:first-child {
+      margin-top: 0;
+    }
+    @media (max-width: 800px) {
+      width: 100%;
+    }
+    pre {
+      padding: 7px 15px 5px 5px;
+      width: 92%;
+      line-height: 1em;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      font-size: 14px;
+      font-family: 'Dekko', cursive;
+    }
+    .close-button {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      border: none;
+      border-radius: 100%;
+      background: url("@{images}/close.png") no-repeat 50% 50%;
+      background-size: 8px 8px;
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+    .redact-button {
+      position: absolute;
+      top: 0px;
+      right: 15px;
+      border: none;
+      border-radius: 100%;
+      background: url("@{images}/redact.png") no-repeat 50% 50%;
+      background-size: 11px 11px;
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+    .redactDiv {
+      textarea {
+        width: 92%;
+        height: 100%;
+        min-width: 92%;
+        max-width: 92%;
+        min-height: 50px;
+        max-height: 100px;
+        overflow: hidden;
+        line-height: 1em;
+        word-wrap: break-word;
+        font-size: 14px;
+        font-family: 'Dekko', cursive;
+        font-weight: 500;
+      }
+      .save-button {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        border: none;
+        border-radius: 100%;
+        background: url("@{images}/save.png") no-repeat 50% 50%;
+        background-size: 11px 11px;
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+      }
+      .cancel-button {
+        position: absolute;
+        top: 0px;
+        right: 15px;
+        border: none;
+        border-radius: 100%;
+        width: 15px;
+        height: 15px;
+        background: url("@{images}/cancel.png") no-repeat 50% 50%;
+        background-size: 12px 12px;
+        cursor: pointer;
+      }
+    }
+  }
+}
