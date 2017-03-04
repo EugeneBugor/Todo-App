@@ -1,9 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Dekko);
 
 body {
+  font-family: Arial;
   margin: 0;
   bottom: 0;
-  background-color: @light-grey;
+  background: url('../pics/main-bg.png') repeat;
   &::-webkit-scrollbar {
     width: 5px;
   }
@@ -30,15 +31,16 @@ body {
     margin: 0 auto;
     box-sizing: border-box;
     .items-placeholder {
-      width: 100%;
+      width: 310px;
       position: absolute;
       text-align: center;
-      font-size: 34px;
-      color: #c3c3c3;
+      font-size: 30px;
+      color: #a9a9a9;
       margin-top: 60px;
     }
 
     .todoItem {
+      margin-top: 15px;
       top:0;
       left:0;
       position: absolute;
@@ -47,14 +49,11 @@ body {
       float: left;
       background-color: yellow;
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-      //margin-top: 3px;
-      //border: 1px solid black;
       font-size: 14px;
       font-family: 'Dekko', cursive;
       font-weight: 500;
-      &:first-child {
-        margin-top: 0;
-      }
+      transition: 1s background-color;
+
       pre {
         padding: 7px 15px 5px 5px;
         width: 92%;
@@ -88,45 +87,8 @@ body {
         height: 15px;
         cursor: pointer;
       }
-      .redactDiv {
-        textarea {
-          width: 92%;
-          height: 100%;
-          min-width: 92%;
-          max-width: 92%;
-          min-height: 50px;
-          max-height: 100px;
-          overflow: hidden;
-          line-height: 1em;
-          word-wrap: break-word;
-          font-size: 14px;
-          font-family: 'Dekko', cursive;
-          font-weight: 500;
-        }
-        .save-button {
-          position: absolute;
-          top: 0px;
-          right: 0px;
-          border: none;
-          border-radius: 100%;
-          background: url("@{images}/save.png") no-repeat 50% 50%;
-          background-size: 11px 11px;
-          width: 15px;
-          height: 15px;
-          cursor: pointer;
-        }
-        .cancel-button {
-          position: absolute;
-          top: 0px;
-          right: 15px;
-          border: none;
-          border-radius: 100%;
-          width: 15px;
-          height: 15px;
-          background: url("@{images}/cancel.png") no-repeat 50% 50%;
-          background-size: 12px 12px;
-          cursor: pointer;
-        }
+      &.in-updating {
+        background-color: #ff9804;
       }
     }
   }
@@ -145,11 +107,12 @@ body {
       display: flex;
       flex-direction: column;
       width: 78%;
+      margin-bottom: 50px;
       textarea {
         background: url('../pics/bg-textarea.png') repeat;
         border: none;
         resize: none;
-        height: 400px;
+        height: 250px;
         line-height: 23px;
         font-size: .8em;
         font-family: 'Dekko', cursive;
@@ -165,9 +128,33 @@ body {
         position: absolute;
         bottom: 20px;
         right: 10px;
+        width: 100px;
+        &::before {
+          content: 'Add';
+        }
+      }
 
-        width: 20%;
-        align-self: flex-end;
+      .update-button {
+        font: 13.3333px Arial;
+        position: absolute;
+        bottom: 20px;
+        right: 10px;
+        width: 100px;
+        line-height: 35px;
+        text-align: center;
+        vertical-align: middle;
+        .mixin-buttons(#ff9804);
+      }
+
+      .cancel-button {
+        font: 13.3333px Arial;
+        position: absolute;
+        bottom: 20px;
+        width: 100px;
+        line-height: 35px;
+        vertical-align: middle;
+        .mixin-buttons(@light-coral);
+        right: 120px;
       }
     }
   }

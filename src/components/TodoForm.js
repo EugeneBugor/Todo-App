@@ -1,12 +1,19 @@
 import React, {Component, PropTypes} from 'react';
 
 export default class TodoForm extends Component {
-    static propTypes = {
-        submit: PropTypes.func.isRequired
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            text: ''
+        };
+    }
 
-    state = {
-        text: ''
+    static propTypes = {
+        submit: PropTypes.func.isRequired,
+        updatingTaskData: PropTypes.string,
+        isUpdating: PropTypes.bool,
+        handleUpdateEnd: PropTypes.func.isRequired,
+        handleCancelUpdate: PropTypes.func.isRequired
     };
 
     handleText = (e) => {
@@ -18,15 +25,8 @@ export default class TodoForm extends Component {
     //on data submit
     handleDataSubmit = (e) => {
         const text = this.state.text.trim();
-        const {submit} = this.props;
-        // ctrl + enter
-        if (e.type == 'keydown') {
-            if (!text) return;
-            if (e.ctrlKey && e.keyCode == 13) {
-                submit({text: text});
-                this.setState({text: ''});
-            }
-        } else { // button submit
+        const {submit, isUpdating} = this.props;
+        if (!isUpdating) {
             if (!text) {
                 e.preventDefault();
                 return;
@@ -37,16 +37,39 @@ export default class TodoForm extends Component {
         }
     };
 
+    componentWillReceiveProps = (nextProps) => {
+        if (nextProps.isUpdating) {
+            this.setState({text: nextProps.updatingTaskData})
+        }
+    };
+
+    //on updating the task
+    handleUpdateEnd = (e) => {
+        this.props.handleUpdateEnd(this.state.text);
+        this.setState({text: ''});
+    };
+
+    handleCancelUpdate = () => {
+        this.props.handleCancelUpdate();
+        this.setState({text: ''});
+    };
+
     render() {
-        const {text} = this.state;
+        const { text } = this.state;
+        const { isUpdating } = this.props;
         return (
             <form id="todoForm" onSubmit={this.handleDataSubmit}>
                 <textarea onChange={this.handleText}
-                          onKeyDown={this.handleDataSubmit}
                           value={text}
                           placeholder="Type your note.."
+                          autoFocus
                           maxLength="1000"/>
-                <input className="add-button" type="submit" value="Add"/>
+                {isUpdating ? [
+                    <div className="cancel-button" type="button" onClick={this.handleCancelUpdate}>Cancel</div>,
+                    <div className="update-button" type="button" onClick={this.handleUpdateEnd}>Update</div>
+                ] : (
+                    <button className="add-button" type="submit"/>
+                )}
             </form>
         )
     }

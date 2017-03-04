@@ -1,10 +1,12 @@
-var fs = require('fs'),
-    path = require('path'),
-    express = require('express'),
-    bodyParser = require('body-parser'),
-    app = express();
+const fs = require('fs');
+const path = require('path');
+const bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
 
-var TASKS_FILE = path.join(__dirname, 'tasks.json');
+const TASKS_FILE = path.join(__dirname, 'tasks.json');
+
+import {writeFile} from './middlewares/write-file'
 
 app.set('port', (process.env.PORT || 3000));
 
@@ -17,6 +19,7 @@ app.use(function (req, res, next) {
     next();
 });
 
+//initialization for webpack configuration
 (function initWebpack() {
     const webpack = require('webpack');
     const webpackConfig = require('./webpack.config.js');
@@ -33,60 +36,76 @@ app.use(function (req, res, next) {
     app.use(express.static(__dirname + '/public'));
 })();
 
+//get all tasks
 app.get('/tasks', function (req, res) {
     fs.readFile(TASKS_FILE, function (err, data) {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
+        if (err) console.error(err);
         res.json(JSON.parse(data));
     });
 });
 
-app.post('/tasks', function (req, res) {
+//get the task
+app.get('/get/:taskId', function (req, res) {
+    const _id = req.params.taskId;
     fs.readFile(TASKS_FILE, function (err, data) {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-        var tasks = JSON.parse(data);
-        if (!req.body.text && !req.body.closeAll) {
-            tasks.forEach(function (item) {
-                for (var key in item) {
-                    if (item.id == req.body.id) {
-                        item.close = true;
-                    }
-                }
-            })
-        } else if (req.body.closeAll) {
-            tasks.forEach(function (item) {
-                for (var key in item) {
-                    item.close = true;
-                }
-            })
-        } else if (req.body.redact) {
-            tasks.forEach(function (item) {
-                for (var key in item) {
-                    if (item.id == req.body.id) {
-                        item.text = req.body.text;
-                    }
-                }
-            })
-        } else {
-            var newTask = {
-                id: req.body.id,
-                text: req.body.text,
-                close: false
-            };
-            tasks.push(newTask);
-        }
-        fs.writeFile(TASKS_FILE, JSON.stringify(tasks, null, 4), function (err) {
-            if (err) {
-                console.error(err);
-                process.exit(1);
+        if (err) console.error(err);
+
+        let tasks = JSON.parse(data);
+        const updating_task = tasks.filter(task => task.id == _id);
+        res.json(updating_task);
+    });
+});
+
+//add a new task
+app.post('/create-task', function (req, res) {
+    const { text } = req.body;
+    const id = Date.now();
+    const new_task = {
+        id: id,
+        text: text
+    };
+
+    fs.readFile(TASKS_FILE, function(err, data) {
+        if (err) console.error(err);
+        let tasks = JSON.parse(data);
+        tasks.push(new_task);
+
+        writeFile(TASKS_FILE, tasks, res);
+    });
+});
+
+//update the task
+app.put('/update/:taskId', function(req, res) {
+    const _id = req.params.taskId;
+    const new_text = req.body.text;
+
+    fs.readFile(TASKS_FILE, function(err, data) {
+        if (err) console.error(err);
+
+        let tasks = JSON.parse(data);
+        tasks = tasks.map(task => {
+            if (task.id == _id) {
+                task.text = new_text;
             }
-            res.json(tasks);
+            return task;
         });
+
+        writeFile(TASKS_FILE, tasks, res);
+    })
+});
+
+//delete the task
+app.delete('/delete/:taskId', function(req, res) {
+    const _id = req.params.taskId;
+    fs.readFile(TASKS_FILE, function (err, data) {
+        if (err) console.error(err);
+
+        let tasks = JSON.parse(data);
+        tasks = tasks.filter(task => {
+            return task.id != _id;
+        });
+
+        writeFile(TASKS_FILE, tasks, res);
     });
 });
 

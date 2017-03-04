@@ -1,12 +1,16 @@
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
 import TodoItems from './../components/TodoItems';
 
 export default class TodoList extends Component {
     static propTypes = {
+        isUpdating: PropTypes.bool.isRequired,
+        updatingTaskId: PropTypes.number,
         data: PropTypes.array.isRequired,
-        handleClose: PropTypes.func.isRequired,
-        handleRedact: PropTypes.func.isRequired
+        handleDelete: PropTypes.func.isRequired,
+        handleUpdateStart: PropTypes.func.isRequired
     };
+
+    //creating of grid layout
 
     componentDidMount = () => {
         const grid = this.refs.grid;
@@ -25,26 +29,30 @@ export default class TodoList extends Component {
         }
     };
 
-    render () {
-        const {data, handleClose, showAll, handleRedact} = this.props;
+    getTasksList = () => {
+        const {data, handleDelete, isUpdating, handleUpdateStart, updatingTaskId} = this.props;
 
-        const list = data.map(item => {
+        return data ? data.map(item => {
             return (
                 <TodoItems key={item.id}
                            ID={+item.id}
-                           close={item.close}
-                           handleClose={handleClose}
-                           handleRedact={handleRedact}
-                           showAll={showAll}
+                           handleDelete={handleDelete}
+                           isUpdating={isUpdating}
+                           updatingTaskId={updatingTaskId}
+                           handleUpdateStart={handleUpdateStart}
                 >
                     {item.text}
                 </TodoItems>
             )
-        }).reverse();
+        }).reverse() : null;
+    };
+
+    render () {
+        const list = this.getTasksList();
 
         return (
             <div id="todoList" ref="grid">
-                {list && list.length ? list : <span className="items-placeholder">Your thought..</span>}
+                {list && list.length ? list : <span className="items-placeholder">Share your thought..</span>}
             </div>
         )
 

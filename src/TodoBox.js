@@ -1,127 +1,141 @@
+import React, { Component } from 'react';
 import TodoList from './containers/TodoList.js';
-import TodoItems from './components/TodoItems'
-import CloseAll from './components/CloseAll';
-import ShowAll from './components/ShowAll';
 import TodoForm from './components/TodoForm';
 
 import $ from 'jquery';
-import React, {Component, PropTypes} from 'react';
-import ReactDOM from 'react-dom';
-
 import './styles/index.less';
 
 export default class TodoBox extends Component {
-    state = {
+    constructor(props) {
+        super(props);
+        this.state = {
             data: [],
-            showAll: false
-    };
+            isUpdating: false,
+            updatingTaskData: []
+        };
+    }
 
     loadDataFromServer = () => {
         $.ajax({
-            url: this.props.url,
+            url: '/tasks',
             dataType: 'json',
-            cache: false,
-            success: data => {
-                this.setState({data: data});
-            },
+            type: 'GET',
+            success: data => this.setState({data: data}),
             error: (xhr, status, err) => {
-                console.error(this.props.url, status, err.toString());
+                console.error(`/tasks`, status, err.toString());
             }
         })
     };
-
-    handleDataSubmit = (task) => {
+        
+    //request to add a new task
+    handleAdd = task => {
         const tasks = this.state.data;
-        task.id = Date.now();
         const newTasks = tasks.concat([task]);
         this.setState({data: newTasks});
         $.ajax({
-            url: this.props.url,
+            url: '/create-task',
             dataType: 'json',
             type: 'POST',
             data: task,
-            success: (data) => {
-                this.setState({data: data});
-            },
+            success: this.loadDataFromServer,
             error: (xhr, status, err) => {
                 this.setState({data: tasks});
-                console.error(this.props.url, status, err.toString());
+                console.error(`/create-task`, status, err.toString());
             }
         });
     };
 
-    handleClose = item => {
+    //request to delete the task
+    handleDelete = item => {
         $.ajax({
-            url: this.props.url,
+            url: `/delete/${item.id}`,
             dataType: 'json',
-            type: 'POST',
+            type: 'DELETE',
             'data': item,
-            success: (data) => {
-                this.setState({data: data});
-            },
+            success: this.loadDataFromServer,
             error: (xhr, status, err) => {
-                console.error(this.props.url, status, err.toString());
+                console.error(`/delete/:${item.id}`, status, err.toString());
             }
         });
     };
 
-    handleShowAll = (show) => {
-        this.setState({
-            showAll: show
-        });
-    };
-
-    handleRedact = (redactedData) => {
+    //request to update the task
+    handleUpdate = (updatedData) => {
         $.ajax({
-            url: this.props.url,
+            url: `/update/${updatedData.id}`,
             dataType: 'json',
-            type: 'POST',
-            'data': redactedData,
-            success: (data) => {
-                this.setState({data: data});
-            },
+            type: 'PUT',
+            'data': updatedData,
+            success: this.loadDataFromServer,
             error: (xhr, status, err) => {
-                console.error(this.props.url, status, err.toString());
+                console.error(`/update/:${updatedData.id}`, status, err.toString());
             }
         });
     };
 
-    componentDidMount = () => {
+    handleGettingTask = (id) => {
+        $.ajax({
+            url: `/get/${id}`,
+            dataType: 'json',
+            type: 'GET',
+            success: data => this.setState({ updatingTaskData: data }),
+            error: (xhr, status, err) => {
+                console.error(`/get/:${id}`, status, err.toString());
+            }
+        })
+    }
+
+    componentWillMount = () => {
         this.loadDataFromServer();
-
-        const todoList = document.getElementById('todoList');
-        todoList.scrollTop = todoList.scrollHeight;
     };
 
-    componentDidUpdate = (prevProps, prevState) => {
-        const {data} = this.state;
-        let flag = true;
-        prevState.data.forEach((prevItem, i) => {
-            for (let key in prevItem) {
-                if (key == 'close') {
-                    if (data[i].close != prevItem[key]) {
-                        flag = false;
-                        return;
-                    }
-                }
-            }
+    handleUpdateStart = (id) => {
+        this.setState({
+            isUpdating: !this.state.isUpdating
         });
-        if (flag) {
-            const todoList = document.getElementById('todoList');
-            todoList.scrollTop = todoList.scrollHeight;
-        }
+
+        id && this.handleGettingTask(id);
     };
+
+    handleUpdateEnd = (new_text) => {
+        this.handleUpdate({
+            id: this.state.updatingTaskData[0].id,
+            text: new_text
+        })
+
+        this.setState({
+            isUpdating: false,
+            updatingTaskData: {}
+        })
+    };
+
+    handleCancelUpdate = () => {
+        this.setState({
+            isUpdating: false,
+            updatingTaskData: {}
+        })
+    };
+
 
     render() {
-        const {data, showAll} = this.state;
+        const { data, isUpdating, updatingTaskData } = this.state;
+
         return (
             <div id="todoBox">
                 <TodoList data={data}
-                          handleClose={this.handleClose}
-                          handleRedact={this.handleRedact}
+                          handleDelete={this.handleDelete}
+                          updatingTaskId={updatingTaskData[0] && updatingTaskData[0].id || null}
+                          handleUpdateStart={this.handleUpdateStart}
+                          isUpdating={isUpdating}
                 />
                 <div className="form-wrapper">
-                    <TodoForm submit={this.handleDataSubmit} />
+                    <TodoForm submit={this.handleAdd}
+                              handleUpdate={this.handleUpdate}
+                              handleUpdateEnd={this.handleUpdateEnd}
+                              isUpdating={isUpdating}
+                              updatingTaskData={updatingTaskData[0] && updatingTaskData[0].text || null}
+                              handleCancelUpdate={this.handleCancelUpdate}
+                    />
                 </div>
             </div>
         )
