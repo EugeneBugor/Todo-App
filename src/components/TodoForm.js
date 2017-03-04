@@ -41,7 +41,11 @@ export default class TodoForm extends Component {
         const {text} = this.state;
         return (
             <form id="todoForm" onSubmit={this.handleDataSubmit}>
-                <textarea onChange={this.handleText} onKeyDown={this.handleDataSubmit} value={text}/>
+                <textarea onChange={this.handleText}
+                          onKeyDown={this.handleDataSubmit}
+                          value={text}
+                          placeholder="Type your note.."
+                          maxLength="1000"/>
                 <input className="add-button" type="submit" value="Add"/>
             </form>
         )

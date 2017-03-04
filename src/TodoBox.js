@@ -119,11 +119,10 @@ export default class TodoBox extends Component {
                 <TodoList data={data}
                           handleClose={this.handleClose}
                           handleRedact={this.handleRedact}
-                          showAll={showAll}
                 />
-                <TodoForm submit={this.handleDataSubmit}/>
-                <ShowAll handleShowAll={this.handleShowAll}/>
-                <CloseAll handleClose={this.handleClose}/>
+                <div className="form-wrapper">
+                    <TodoForm submit={this.handleDataSubmit} />
+                </div>
             </div>
         )
     }

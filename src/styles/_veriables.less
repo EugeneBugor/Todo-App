@@ -1,0 +1,30 @@
+//____________COLORS___________
+@blue: #7195FF;
+@light-blue: #bec6e6;
+@light-coral: #F08080;
+@coral: #ff9400;
+@orange: rgba(255, 165, 0, 0.5);
+@pale-green: #d4ffbd;
+@lime-green: #1bd000;
+@green: #4CAF50;
+@pink: #ffbda3;
+@light-grey: #f7f7f7;
+@grey: #c4c4c4;
+@images: "../pics";
+
+.mixin-buttons (@color) {
+  border: 2px solid @color;
+  height: 35px;
+  background-color: white;
+  color: @color;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+  transition: 0.2s background-color;
+  cursor: pointer;
+  &:hover {
+    background-color: @color;
+    color: white;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,174 @@
+@import url(https://fonts.googleapis.com/css?family=Dekko);
+
+body {
+  margin: 0;
+  bottom: 0;
+  background-color: @light-grey;
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: grey;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: @grey;
+  }
+}
+
+#todoBox {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  #todoList {
+    width: 100%;
+    height: 500px;
+    position: relative;
+    margin: 0 auto;
+    box-sizing: border-box;
+    .items-placeholder {
+      width: 100%;
+      position: absolute;
+      text-align: center;
+      font-size: 34px;
+      color: #c3c3c3;
+      margin-top: 60px;
+    }
+
+    .todoItem {
+      top:0;
+      left:0;
+      position: absolute;
+      width: 200px;
+      height: auto;
+      float: left;
+      background-color: yellow;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      //margin-top: 3px;
+      //border: 1px solid black;
+      font-size: 14px;
+      font-family: 'Dekko', cursive;
+      font-weight: 500;
+      &:first-child {
+        margin-top: 0;
+      }
+      pre {
+        padding: 7px 15px 5px 5px;
+        width: 92%;
+        line-height: 1em;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        font-size: 14px;
+        font-family: 'Dekko', cursive;
+      }
+      .close-button {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        border: none;
+        border-radius: 100%;
+        background: url("@{images}/close.png") no-repeat 50% 50%;
+        background-size: 8px 8px;
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+      }
+      .redact-button {
+        position: absolute;
+        top: 0px;
+        right: 15px;
+        border: none;
+        border-radius: 100%;
+        background: url("@{images}/redact.png") no-repeat 50% 50%;
+        background-size: 11px 11px;
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+      }
+      .redactDiv {
+        textarea {
+          width: 92%;
+          height: 100%;
+          min-width: 92%;
+          max-width: 92%;
+          min-height: 50px;
+          max-height: 100px;
+          overflow: hidden;
+          line-height: 1em;
+          word-wrap: break-word;
+          font-size: 14px;
+          font-family: 'Dekko', cursive;
+          font-weight: 500;
+        }
+        .save-button {
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          border: none;
+          border-radius: 100%;
+          background: url("@{images}/save.png") no-repeat 50% 50%;
+          background-size: 11px 11px;
+          width: 15px;
+          height: 15px;
+          cursor: pointer;
+        }
+        .cancel-button {
+          position: absolute;
+          top: 0px;
+          right: 15px;
+          border: none;
+          border-radius: 100%;
+          width: 15px;
+          height: 15px;
+          background: url("@{images}/cancel.png") no-repeat 50% 50%;
+          background-size: 12px 12px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    .showAll-button { .mixin-buttons(@blue); }
+    .closeAll-button { .mixin-buttons(@light-coral); }
+
+    #todoForm {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 78%;
+      textarea {
+        background: url('../pics/bg-textarea.png') repeat;
+        border: none;
+        resize: none;
+        height: 400px;
+        line-height: 23px;
+        font-size: .8em;
+        font-family: 'Dekko', cursive;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-left: 10px;
+        &:focus {
+          outline: none;
+        }
+      }
+      .add-button {
+        .mixin-buttons(@green);
+        position: absolute;
+        bottom: 20px;
+        right: 10px;
+
+        width: 20%;
+        align-self: flex-end;
+      }
+    }
+  }
+}
