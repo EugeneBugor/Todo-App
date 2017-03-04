@@ -127,13 +127,13 @@ export default class TodoItems extends Component {
 
 
         return close ? (showAll ? (
-            <div id="todoItem" style={{display: 'block', background: 'lightcoral'}}>
+            <div className="todoItem" style={{display: 'block', background: 'lightcoral'}}>
                 <pre className="pre">
                     {children}
                 </pre>
             </div>
         ) : null) : (
-            <div id="todoItem" style={{display: 'block'}}>
+            <div className="todoItem" style={{display: 'block'}}>
                 {closeButton}
                 {redactButton}
                 <pre className="pre">

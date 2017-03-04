@@ -5,8 +5,24 @@ export default class TodoList extends Component {
     static propTypes = {
         data: PropTypes.array.isRequired,
         handleClose: PropTypes.func.isRequired,
-        showAll: PropTypes.bool.isRequired,
         handleRedact: PropTypes.func.isRequired
+    };
+
+    componentDidMount = () => {
+        const grid = this.refs.grid;
+        this.msnry = new Masonry( grid, {
+            itemSelector: '.todoItem',
+            columnWidth: 200,
+            gutter: 10,
+            isFitWidth: true
+        });
+    };
+
+    componentDidUpdate = prevProps => {
+        if (this.props.data.length !== prevProps.data.length) {
+            this.msnry.reloadItems();
+            this.msnry.layout();
+        }
     };
 
     render () {
@@ -24,12 +40,13 @@ export default class TodoList extends Component {
                     {item.text}
                 </TodoItems>
             )
-        });
+        }).reverse();
 
         return (
-            <div id="todoList">
-                {list}
+            <div id="todoList" ref="grid">
+                {list && list.length ? list : <span className="items-placeholder">Your thought..</span>}
             </div>
         )
+
     }
 };
