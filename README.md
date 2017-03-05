@@ -9,4 +9,4 @@ This is React-based app
   ```
 ##### Run server:
 
-  `npm run server` or `node server`
+  `npm run server`
