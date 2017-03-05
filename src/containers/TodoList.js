@@ -38,7 +38,7 @@ export default class TodoList extends Component {
         } = this.props;
 
         return data ? data.map(item => (
-            <TodoItems key={item.id}
+            <TodoItems key={+item.id}
                        ID={+item.id}
                        handleDelete={handleDelete}
                        isUpdating={isUpdating}

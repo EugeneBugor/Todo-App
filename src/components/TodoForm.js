@@ -60,13 +60,13 @@ export default class TodoForm extends Component {
         return (
             <form id="todoForm" onSubmit={this.handleDataSubmit}>
                 <textarea onChange={this.handleText}
-                          value={text}
+                          value={text || ''}
                           placeholder="Type your note.."
                           autoFocus
                           maxLength="1000"/>
                 {isUpdating ? [
-                    <div className="cancel-button" type="button" onClick={this.handleCancelUpdate}>Cancel</div>,
-                    <div className="update-button" type="button" onClick={this.handleUpdateEnd}>Update</div>
+                    <div key={1} className="cancel-button" type="button" onClick={this.handleCancelUpdate}>Cancel</div>,
+                    <div key={2} className="update-button" type="button" onClick={this.handleUpdateEnd}>Update</div>
                 ] : (
                     <button className="add-button" type="submit"/>
                 )}

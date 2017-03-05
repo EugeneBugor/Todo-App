@@ -28,7 +28,7 @@ export default class TodoBox extends Component {
             }
         })
     };
-        
+
     //request to add a new task
     handleAdd = task => {
         const tasks = this.state.data;
@@ -85,7 +85,7 @@ export default class TodoBox extends Component {
                 console.error(`/get/:${id}`, status, err.toString());
             }
         })
-    }
+    };
 
     componentWillMount = () => {
         this.loadDataFromServer();
@@ -103,7 +103,7 @@ export default class TodoBox extends Component {
         this.handleUpdate({
             id: this.state.updatingTaskData[0].id,
             text: new_text
-        })
+        });
 
         this.setState({
             isUpdating: false,
@@ -120,7 +120,11 @@ export default class TodoBox extends Component {
 
 
     render() {
-        const { data, isUpdating, updatingTaskData } = this.state;
+        const {
+            data,
+            isUpdating,
+            updatingTaskData
+        } = this.state;
 
         return (
             <div id="todoBox">
@@ -142,5 +146,4 @@ export default class TodoBox extends Component {
             </div>
         )
     }
-
 };
