@@ -38,7 +38,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: "style-loader!css-loader!autoprefixer-loader",
-                exclude: [/node_modules/, /public/]
+                exclude: [/public/]
             },
             {
                 test: /\.png$/,
@@ -47,6 +47,23 @@ module.exports = {
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: 'url'
+            },
+            ,
+            {
+                test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'file?name=fonts/[name].[ext]'
+            }, {
+                test: /\.otf$/,
+                loader: 'file?name=fonts/[name].[ext]'
+            }, {
+                test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'url?prefix=font/&limit=5000&name=fonts/[name].[ext]'
+            }, {
+                test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'url?limit=10000&mimetype=application/octet-stream&name=fonts/[name].[ext]'
+            }, {
+                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'url?limit=10000&mimetype=image/svg+xml&name=fonts/[name].[ext]'
             }
         ]
     },

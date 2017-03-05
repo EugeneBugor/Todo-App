@@ -21,8 +21,8 @@ export default class TodoItems extends Component {
     render() {
         const {children, ID, isUpdating, updatingTaskId} = this.props;
 
-        const deleteButton = <button className="close-button" onClick={this.onDelete}/>,
-            updateButton = <button className="redact-button" onClick={() => {this.handleUpdateStart(ID)}}/>;
+        const deleteButton = <i className="fa fa-trash-o delete-icon" onClick={this.onDelete}/>,
+            updateButton = <i className="fa fa-pencil-square-o update-icon" onClick={() => {this.handleUpdateStart(ID)}}/>;
 
         const inUpdating = isUpdating && updatingTaskId === ID;
 

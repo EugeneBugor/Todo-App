@@ -4,6 +4,8 @@ import TodoForm from './components/TodoForm';
 
 import $ from 'jquery';
 import './styles/index.less';
+import 'font-awesome-webpack';
+import 'font-awesome/css/font-awesome.css';
 
 export default class TodoBox extends Component {
     constructor(props) {

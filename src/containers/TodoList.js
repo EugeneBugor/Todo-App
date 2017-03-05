@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, {Component, PropTypes} from 'react'
 import TodoItems from './../components/TodoItems';
 
 export default class TodoList extends Component {
@@ -11,10 +11,9 @@ export default class TodoList extends Component {
     };
 
     //creating of grid layout
-
     componentDidMount = () => {
         const grid = this.refs.grid;
-        this.msnry = new Masonry( grid, {
+        this.msnry = new Masonry(grid, {
             itemSelector: '.todoItem',
             columnWidth: 200,
             gutter: 10,
@@ -30,24 +29,28 @@ export default class TodoList extends Component {
     };
 
     getTasksList = () => {
-        const {data, handleDelete, isUpdating, handleUpdateStart, updatingTaskId} = this.props;
+        const {
+            data,
+            handleDelete,
+            isUpdating,
+            handleUpdateStart,
+            updatingTaskId
+        } = this.props;
 
-        return data ? data.map(item => {
-            return (
-                <TodoItems key={item.id}
-                           ID={+item.id}
-                           handleDelete={handleDelete}
-                           isUpdating={isUpdating}
-                           updatingTaskId={updatingTaskId}
-                           handleUpdateStart={handleUpdateStart}
-                >
-                    {item.text}
-                </TodoItems>
-            )
-        }).reverse() : null;
+        return data ? data.map(item => (
+            <TodoItems key={item.id}
+                       ID={+item.id}
+                       handleDelete={handleDelete}
+                       isUpdating={isUpdating}
+                       updatingTaskId={updatingTaskId}
+                       handleUpdateStart={handleUpdateStart}>
+                {item.text}
+            </TodoItems>
+
+        )).reverse() : null;
     };
 
-    render () {
+    render() {
         const list = this.getTasksList();
 
         return (

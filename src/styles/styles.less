@@ -31,6 +31,7 @@ body {
     margin: 0 auto;
     box-sizing: border-box;
     .items-placeholder {
+      user-select: none;
       width: 310px;
       position: absolute;
       text-align: center;
@@ -63,29 +64,17 @@ body {
         font-size: 14px;
         font-family: 'Dekko', cursive;
       }
-      .close-button {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        border: none;
-        border-radius: 100%;
-        background: url("@{images}/close.png") no-repeat 50% 50%;
-        background-size: 8px 8px;
-        width: 15px;
-        height: 15px;
+      .delete-icon {
         cursor: pointer;
+        top: 4px;
+        position: absolute;
+        right: 4px;
       }
-      .redact-button {
-        position: absolute;
-        top: 0px;
-        right: 15px;
-        border: none;
-        border-radius: 100%;
-        background: url("@{images}/redact.png") no-repeat 50% 50%;
-        background-size: 11px 11px;
-        width: 15px;
-        height: 15px;
+      .update-icon {
         cursor: pointer;
+        top: 4px;
+        position: absolute;
+        right: 19px;
       }
       &.in-updating {
         background-color: #ff9804;
