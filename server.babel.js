@@ -7,8 +7,9 @@ const app = express();
 const TASKS_FILE = path.join(__dirname, 'tasks.json');
 
 import {writeFile} from './middlewares/write-file'
+import config from './config/index';
 
-app.set('port', (process.env.PORT || 3000));
+app.set('port', (process.env.PORT || config.port));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -110,5 +111,5 @@ app.delete('/delete/:taskId', function(req, res) {
 });
 
 app.listen(app.get('port'), function () {
-    console.log('Server started: http://localhost:' + app.get('port') + '/');
+    console.log(`Server started on ${config.url}`);
 });

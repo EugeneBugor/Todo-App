@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TodoList from './containers/TodoList.js';
 import TodoForm from './components/TodoForm';
+import config from './config';
 
 import $ from 'jquery';
 import './styles/index.less';
@@ -19,7 +20,7 @@ export default class TodoBox extends Component {
 
     loadDataFromServer = () => {
         $.ajax({
-            url: '/tasks',
+            url: `${config.url}/tasks`,
             dataType: 'json',
             type: 'GET',
             success: data => this.setState({data: data}),
@@ -35,7 +36,7 @@ export default class TodoBox extends Component {
         const newTasks = tasks.concat([task]);
         this.setState({data: newTasks});
         $.ajax({
-            url: '/create-task',
+            url: `${config.url}/create-task`,
             dataType: 'json',
             type: 'POST',
             data: task,
@@ -50,7 +51,7 @@ export default class TodoBox extends Component {
     //request to delete the task
     handleDelete = item => {
         $.ajax({
-            url: `/delete/${item.id}`,
+            url: `${config.url}/delete/${item.id}`,
             dataType: 'json',
             type: 'DELETE',
             'data': item,
@@ -64,7 +65,7 @@ export default class TodoBox extends Component {
     //request to update the task
     handleUpdate = (updatedData) => {
         $.ajax({
-            url: `/update/${updatedData.id}`,
+            url: `${config.url}/update/${updatedData.id}`,
             dataType: 'json',
             type: 'PUT',
             'data': updatedData,
@@ -77,7 +78,7 @@ export default class TodoBox extends Component {
 
     handleGettingTask = (id) => {
         $.ajax({
-            url: `/get/${id}`,
+            url: `${config.url}/get/${id}`,
             dataType: 'json',
             type: 'GET',
             success: data => this.setState({ updatingTaskData: data }),
